@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI To-Do List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="title-area">
+        <h1>
+          <span>⚡</span>
+          <span>AI Tasks</span>
+        </h1>
+        <p>Auto-prioritizes tasks as High, Medium, or Low</p>
+      </div>
+
+      <button id="statusPill" class="status-pill" title="Click to view AI Settings">
+        <span id="statusIndicator" class="status-indicator fallback"></span>
+        <span id="statusText">Fallback Rules</span>
+      </button>
+    </header>
+
+    <!-- Main Card -->
+    <main class="todo-card">
+      <!-- Input Area -->
+      <form id="todoForm" class="input-form">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="taskInput"
+            class="task-input"
+            placeholder="Type a task (e.g., Fix urgent server outage)..."
+            autocomplete="off"
+            required
+          />
+        </div>
+        <button type="submit" id="addBtn" class="add-btn">
+          <span id="btnText">Add</span>
+          <div id="btnSpinner" class="spinner" style="display: none;"></div>
+        </button>
+      </form>
+
+      <!-- Quick Try Chips -->
+      <div class="quick-chips">
+        <span class="quick-chips-label">Try:</span>
+        <button type="button" class="chip" data-task="Fix critical payment bug immediately">🔥 Urgent Bug</button>
+        <button type="button" class="chip" data-task="Schedule team sync for tomorrow">📅 Team Sync</button>
+        <button type="button" class="chip" data-task="Read chapter 3 of book later">📚 Read Book</button>
+      </div>
+
+      <!-- Task List -->
+      <ul id="taskList" class="task-list">
+        <!-- Rendered dynamically -->
+      </ul>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 14 14"></polyline>
+        </svg>
+        <p>No tasks yet. Add one above to see AI prioritization!</p>
+      </div>
+
+      <!-- List Footer -->
+      <footer id="listFooter" class="list-footer" style="display: none;">
+        <span id="itemsLeft">0 tasks left</span>
+        <button id="clearCompletedBtn" class="clear-btn">Clear completed</button>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Settings Modal for AI Configuration -->
+  <div id="settingsModal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2>AI Prioritization Settings</h2>
+        <button id="closeModalBtn" class="close-modal-btn" aria-label="Close">✕</button>
+      </div>
+
+      <div class="settings-field">
+        <label for="providerSelect">AI Provider</label>
+        <select id="providerSelect">
+          <option value="fallback">Keyword Rules (No API Key Required)</option>
+          <option value="gemini">Google Gemini (Free tier available)</option>
+          <option value="openai">OpenAI (GPT-4o mini)</option>
+        </select>
+      </div>
+
+      <div id="apiKeySection" class="settings-field" style="display: none;">
+        <label for="apiKeyInput">API Key</label>
+        <input type="password" id="apiKeyInput" placeholder="Paste your API key here..." autocomplete="off">
+        <p class="settings-info">
+          Your key stays in your browser's local storage and is only used to call the AI classification model.
+        </p>
+      </div>
+
+      <p class="settings-info">
+        <strong>Fallback Mode:</strong> If no API key is provided or the API is unreachable, the app automatically uses smart keyword-based rules to label tasks High, Medium, or Low.
+      </p>
+
+      <div class="modal-actions">
+        <button type="button" id="saveSettingsBtn" class="btn-primary">Save & Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
